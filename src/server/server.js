@@ -27,11 +27,23 @@ const InputError = require('../exceptions/InputError');
         if (response instanceof InputError) {
             const newResponse = h.response({
                 status: 'fail',
-                message: `${response.message} Silakan gunakan foto lain.`
+                message: response.message
             })
             newResponse.code(response.statusCode)
             return newResponse;
         }
+
+    if (response instanceof Error) {
+      const newResponse = h.response({
+        status: "fail",
+        message:
+          response.output.statusCode == 413
+            ? "Payload content length greater than maximum allowed: 1000000"
+            : response.output.payload.message,
+      });
+      newResponse.code(response.output.statusCode);
+      return newResponse;
+    }
 
         if (response.isBoom) {
             const newResponse = h.response({

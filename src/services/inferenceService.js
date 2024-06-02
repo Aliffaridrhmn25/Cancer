@@ -1,3 +1,4 @@
+
 const tf = require('@tensorflow/tfjs-node');
 const InputError = require('../exceptions/InputError');
 
@@ -38,7 +39,7 @@ async function predictClassification(model, image) {
 
     return { confidenceScore, label, explanation, suggestion };
   } catch (error) {
-    throw new InputError(`Terjadi kesalahan input: ${error.message}`);
+    throw new InputError(`Terjadi kesalahan dalam melakukan prediksi`);
   }
 }
 
